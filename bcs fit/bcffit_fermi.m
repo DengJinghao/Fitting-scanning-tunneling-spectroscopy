@@ -4,11 +4,11 @@ bias = tab.BiasCalc_V_;didv = tab.LIDemod1X_A_;current = tab.Current_A_;
 x1 = 1000*bias; y1 = 1e12*didv;
 %x = x + 0.00015;%symmetrization
 x2 = x1(~excludedata(x1,y1,'domain',[1.1 1.8]));y2 = y1(~excludedata(x1,y1,'domain',[1.1 1.8]));
-%¶ÁÈ¡Êı¾İ£¬xÎªbias(V) y Îªdidv ÎªÁË¹éÒ»»¯×ö×¼±¸£¬¶ÁÈ¡ÁËcurrent×÷Îª±¸ÓÃ,x1
-%y1Îª·¶Î§Ñ¡¶¨£¬domain±íÊ¾¶Ôx½øĞĞexclude£¬excludedata·µ»ØµÄÊÇlogic0 1£¬~excludedataÓÃÀ´ÅÅ³ıÊµ¼ÊµÄÊı¾İ
+%è¯»å–æ•°æ®ï¼Œxä¸ºbias(V) y ä¸ºdidv ä¸ºäº†å½’ä¸€åŒ–åšå‡†å¤‡ï¼Œè¯»å–äº†currentä½œä¸ºå¤‡ç”¨,x1
+%y1ä¸ºèŒƒå›´é€‰å®šï¼Œdomainè¡¨ç¤ºå¯¹xè¿›è¡Œexcludeï¼Œexcludedataè¿”å›çš„æ˜¯logic0 1ï¼Œ~excludedataç”¨æ¥æ’é™¤å®é™…çš„æ•°æ®
 syms nf energy r delta funbcs Temp ntip x;
 %nf = 1; r = 0.1; delta = 5; 
-%nfÎª³£Êı£¬rÎªÈÈÕ¹¿í£¨mev£©£¬deltaÎª³¬µ¼gap£¨meV£©,delta =1.76kbt for bcs case
+%nfä¸ºå¸¸æ•°ï¼Œrä¸ºçƒ­å±•å®½ï¼ˆmevï¼‰ï¼Œdeltaä¸ºè¶…å¯¼gapï¼ˆmeVï¼‰,delta =1.76kbt for bcs case
 %fermi = (1./(exp((energy + bias)./(0.0863.*Temp))+1));
 Temp = 0.8;
 nf = [];delta = [];energy = [];r = [];x = [];
@@ -16,19 +16,19 @@ fun1 = @(x,energy)(0.25.*0.0863.*Temp.*(sech((energy-x)./(2.*0.0863.*Temp))).^2)
 %differmi = matlabFunction(differmi);
 %y = integral(@(energy)(fun(Temp,bias,energy).*(nf.*real(abs(energy + 1i.*r)./((energy + 1i.*r).^2 - delta.^2).^0.5))),-1000,1000);
 fun = @(nf,r,delta,x)(nf.*integral(@(energy)((fun1(x,energy)).*(real(abs(energy + 1i.*r)./((energy + 1i.*r).^2 - delta.^2).^0.5))),-30,30,'ArrayValued',true));
-%»ı·ÖÏŞÂÔ´óÓÚbiasÈ¡Öµ·¶Î§£¬quadgk²ÉÓÃ¸ßË¹ÀÕÈÃµÂÇó½â£¬±Èintegral¸üÇ¿´ó£¬sechº¯Êı·åĞÍ°ë¸ß¿íÎª10mV£¬ÍêÈ«¿í¶È20mV
+%ç§¯åˆ†é™ç•¥å¤§äºbiaså–å€¼èŒƒå›´ï¼Œquadgké‡‡ç”¨é«˜æ–¯å‹’è®©å¾·æ±‚è§£ï¼Œæ¯”integralæ›´å¼ºå¤§ï¼Œsechå‡½æ•°å³°å‹åŠé«˜å®½ä¸º10mVï¼Œå®Œå…¨å®½åº¦20mV
 fo = fitoptions('Method','NonlinearLeastSquares','Lower',[0.1,0.01,0.1],'Upper',[10000,1,3],...
     'Diffminchange',1e-8,'Algorithm','Trust-Region','StartPoint',[100,0.1,1.2]...
     ,'MaxFunEvals',10000,'MaxIter',1000,'TolFun',1e-15,'TolX',1e-20,'Robust','Bisquare');
-%startpoint·Ç³£¹Ø¼ü£¬ÒªÑ¡È¡ºÏÊÊµÄ³õÖµ£¬¿ÉÒÔÏÈÅÜÒ»ÏÂ·½³ÌÔ¤¹À³õÖµ
-%maxfunevalsÓë·½³ÌÔËËã¾«¶ÈÓĞ¹Ø£¬maxiterÊÇÄâºÏÖÁÊÕÁ²µÄ×î´ó´ÎÊı£¬tolfun tolxÊÇÏµÊıºÍ±äÁ¿µÄÈİÈÌ¶È£¬algorithmËã·¨
+%startpointéå¸¸å…³é”®ï¼Œè¦é€‰å–åˆé€‚çš„åˆå€¼ï¼Œå¯ä»¥å…ˆè·‘ä¸€ä¸‹æ–¹ç¨‹é¢„ä¼°åˆå€¼ï¼Œå…¶ä½™å‚æ•°å–å†³äºæ•°æ®
+%maxfunevalsä¸æ–¹ç¨‹è¿ç®—ç²¾åº¦æœ‰å…³ï¼Œmaxiteræ˜¯æ‹Ÿåˆè‡³æ”¶æ•›çš„æœ€å¤§æ¬¡æ•°ï¼Œtolfun tolxæ˜¯ç³»æ•°å’Œå˜é‡çš„å®¹å¿åº¦ï¼Œalgorithmç®—æ³•
 ft = fittype(fun,'options',fo);
-[curve,gof] = fit(x2,y2,ft);%Ö»Ñ¡È¡Ä³¸ö·¶Î§µÄÊı¾İ½øĞĞÄâºÏ;
+[curve,gof] = fit(x2,y2,ft);%åªé€‰å–æŸä¸ªèŒƒå›´çš„æ•°æ®è¿›è¡Œæ‹Ÿåˆ;
 
-hold on %´´½¨ĞÂÍ¼ÏñÊ±±£Áô¾ÉÍ¼Ïñans
+hold on %åˆ›å»ºæ–°å›¾åƒæ—¶ä¿ç•™æ—§å›¾åƒans
 figure(1);
-plot(x1,y1,':','LineWidth',2);%É¢µãÍ¼oĞÍ
-plot(curve)%fitÇúÏß
+plot(x1,y1,':','LineWidth',2);%æ•£ç‚¹å›¾oå‹
+plot(curve)%fitæ›²çº¿
 xlabel('Bias (v)')
 ylabel('dI/dV (a.u.)')
 %axis([-0.05 0.05 0 1e-12])
