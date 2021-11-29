@@ -1,6 +1,6 @@
-clear all;
+clear variables;
 syms nf energy r delta y;
-nf = 157.4; r = 0.01; delta =  1.353; %nfÎª³£Êý£¬rÎªÈÈÕ¹¿í£¨mev£©£¬deltaÎª³¬µ¼gap£¨meV£©
+nf = 157.4; r = 0.01; delta =  1.353; %nfä¸ºå¸¸æ•°ï¼Œrä¸ºçƒ­å±•å®½ï¼ˆmevï¼‰ï¼Œdeltaä¸ºè¶…å¯¼gapï¼ˆmeVï¼‰
 energy = -5:0.01:5;%meV
 y = [];%density of states
 y = nf.*real(abs(energy + i.*r)./((energy + i.*r).^2 - delta.^2).^0.5);
